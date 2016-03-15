@@ -29,14 +29,15 @@ var sendToStatsD = function (message) {
  * @param options
  * @constructor
  */
-function StatsDPlugin() {
-  // @todo read options
-  this.options = {
+function StatsDPlugin(options) {
+  this.options = Object.assign({
     port: 8251,
     host: "localhost",
     debug: true,
-    app: "oneapm-test"
-  };
+    app: "oneapm-test",
+    env: "development",
+    builder: os.hostname()
+  }, options)
 }
 
 StatsDPlugin.prototype.apply = function (compiler) {
@@ -48,7 +49,7 @@ StatsDPlugin.prototype.apply = function (compiler) {
       var send = sendToStatsD.bind(self);
       var json = stats.toJson();
 
-      var commonTags = '|#version:' + json.version + ",app:" + options.app;
+      var commonTags = '|#webpack:' + json.version + ",app:" + options.app + ",env:" + options.env + ",builder:" + options.builder;
 
       // count
       send('webpack.errors.count:' + json.errors.length + '|g' + commonTags);
