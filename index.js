@@ -36,7 +36,10 @@ function StatsDPlugin(options) {
     debug: true,
     app: "oneapm-test",
     env: "development",
-    builder: os.hostname()
+    builder: os.hostname(),
+    doneCallback: function () {
+
+    }
   }, options)
 }
 
@@ -48,7 +51,7 @@ StatsDPlugin.prototype.apply = function (compiler) {
     try {
       var send = sendToStatsD.bind(self);
       var json = stats.toJson();
-
+      options.doneCallback.call(this, json);
       var commonTags = '|#webpack:' + json.version + ",app:" + options.app + ",env:" + options.env + ",builder:" + options.builder;
 
       // count
