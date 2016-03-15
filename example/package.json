@@ -1,0 +1,14 @@
+{
+  "name": "statsd-webpack-plugin-example",
+  "version": "0.0.0",
+  "description": "example",
+  "main": "build.sh",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wyvernnot",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "webpack": "^1.12.14"
+  }
+}
