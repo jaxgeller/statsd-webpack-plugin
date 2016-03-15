@@ -61,9 +61,15 @@ StatsDPlugin.prototype.apply = function (compiler) {
       send('webpack.time.ms:' + json.time + '|g' + commonTags);
 
       // assets
+      var assetsSum = 0;
       json.assets.forEach(function (asset, index) {
+        if (asset.emitted) {
+          assetsSum += asset.size;
+        }
         send('webpack.asset.kb_size:' + asset.size + '|g' + commonTags + ",name:" + asset.name);
       });
+
+      send('webpack.assets.sum.kb_size:' + assetsSum + '|g' + commonTags);
 
 
     } catch (e) {
